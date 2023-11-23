@@ -1,17 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package projetovendas.controller;
 
 import projetovendas.interfaces.IOperacao;
 import projetovendas.model.Cidade;
 
-
-/**
- *
- * @author aluno
- */
 public class CidadeController implements IOperacao{
     
     private Cidade cidade;
