@@ -4,14 +4,17 @@
  */
 package projetovendas.view;
 
+import java.awt.event.ItemEvent;
 import projetovendas.controller.EnderecoController;
+import projetovendas.model.BancoDeDados;
+import projetovendas.model.Endereco;
 
 /**
  *
  * @author aluno
  */
 public class TelaEndereco extends javax.swing.JFrame {
-    
+
     EnderecoController enderecoController;
 
     /**
@@ -20,6 +23,16 @@ public class TelaEndereco extends javax.swing.JFrame {
     public TelaEndereco() {
         initComponents();
         enderecoController = new EnderecoController();
+        montaCombo();
+    }
+
+    private void montaCombo() {
+        //adicionar o selecionar na lista de combo
+        jCCidade.addItem("Selecionar");
+        //colocar as demais cidades após o "selecionar"
+        for (int x = 0; x < BancoDeDados.LISTA_CIDADES.size(); x++) {
+            jCCidade.addItem(BancoDeDados.LISTA_CIDADES.get(x).getNome());
+        }
     }
 
     /**
@@ -77,7 +90,16 @@ public class TelaEndereco extends javax.swing.JFrame {
 
         jLabel2.setText("Cidade");
 
-        jCCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCCidade.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCCidadeItemStateChanged(evt);
+            }
+        });
+        jCCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCCidadeActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Bairro");
 
@@ -133,21 +155,50 @@ public class TelaEndereco extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-      
+        enderecoController.getEndereco().setBairro(jTbairro.getText());
+        enderecoController.getEndereco().setLogradouro(jTLogradouro.getText());
+        enderecoController.cadastrar();
+        limpar();
+
 
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-      
+        limpar();
     }//GEN-LAST:event_jBCancelarActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        
+
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     private void jTLogradouroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTLogradouroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTLogradouroActionPerformed
+
+    private void jCCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCCidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCCidadeActionPerformed
+
+    private void jCCidadeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCCidadeItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED && jCCidade.getSelectedIndex() > 0) {
+            System.out.println("cidade selecionada"
+                    + BancoDeDados.LISTA_CIDADES.get(jCCidade.getSelectedIndex() - 1));
+            enderecoController.setEndereco(new Endereco());
+            enderecoController
+                    .getEndereco()
+                    .setCidade(BancoDeDados.LISTA_CIDADES.get(jCCidade.getSelectedIndex() - 1));
+
+        }    }//GEN-LAST:event_jCCidadeItemStateChanged
+
+    private void limpar() {
+        jTLogradouro.setText("");
+        jTbairro.setText("");
+        jCCidade.getItemAt(0);
+    }
+
+    private void exlcuir() {
+        enderecoController.excluir();
+    }
 
     /**
      * @param args the command line arguments

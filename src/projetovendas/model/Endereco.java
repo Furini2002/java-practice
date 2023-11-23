@@ -19,6 +19,7 @@ public class Endereco implements IOperacao{
 
     @Override
     public void cadastrar() {
+        System.out.println("endereco"+this.toString());
     }
 
     @Override
@@ -58,6 +59,13 @@ public class Endereco implements IOperacao{
     public void setBairro(String bairro) {
         this.bairro = bairro;
     }
+
+    @Override
+    public String toString() {
+        return "Endereco{" + "logradouro=" + logradouro + ", cidade=" + cidade + ", bairro=" + bairro + '}';
+    }
+    
+    
     
     
     
